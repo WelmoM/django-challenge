@@ -3,7 +3,7 @@ import json
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
-from .controller import user_account_creation
+from .controller import UserController
 
 def health(request):
     return HttpResponse(status=200)
@@ -22,7 +22,7 @@ def create_account(request):
     email = (data.get("email") or "").strip()
     password = data.get("password") or ""
 
-    account_created = user_account_creation(username, email, password)
+    account_created = UserController().user_account_creation(username, email, password)
     if not account_created:
         return JsonResponse({"error": "failed to create account"}, status=400)
     return HttpResponse(status=200)
